@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <title>Demo</title>
+  <script src="sightglass.js"></script>
+</head>
+<body>
+<section id="auction">
+  <h1 rv-text="user.name"></h1>
+  <p>{ user.name } is { user.age } years old.</p>
+  <button rv-show="user.admin">Remove</button>
+  <section rv-hide="feature.disabled"></section>
+  <button rv-enabled="user.canVote">Upvote</button>
+  <button rv-disabled="user.suspended">Upvote</button>
+  <h3>{ auction.product.name }</h3>
+  <p>Current bid: { auction.currentBid }</p>
+
+  <aside rv-if="auction.timeLeft">
+    Hurry up! There is { auction.timeLeft } left.
+  </aside>
+
+  <section rv-html="item.summary"></section>
+  <section rv-if="item.editable">Editable</section>
+  <section rv-unless="item.locked">Locked</section>
+  <input rv-value="item.name">
+  <input type="checkbox" rv-checked="item.enabled">
+  <input type="checkbox" rv-unchecked="item.disabled">
+  <button rv-on-click="item.destroy">Remove</button>
+  <ul>
+    <li rv-each-todo="todos" rv-class-completed="todo.done">
+      <input type="checkbox" rv-checked="todo.done"> { todo.name }
+    </li>
+  </ul>
+  <input type="text" rv-placeholder="field.placeholder">
+</section>
+<script type="module">
+  import rivets from '/src/export.js'
+
+  console.log(rivets)
+
+  rivets.bind(auction, {
+    user: {
+      name: 'scott',
+      age: 20,
+      admin: true,
+      canVote: true,
+      suspended: true
+    },
+    feature: {
+      disabled: false
+    },
+    auction: {
+      product: {
+        name: 'taobao'
+      },
+      currentBid: 1,
+      timeLeft: 1000
+    },
+    item: {
+      summary: '<span style="color: red">This is red text.</span>',
+      editable: true,
+      locked: true,
+      name: 'input name',
+      enabled: true,
+      disabled: true,
+      destroy() {
+        alert('clicked')
+      }
+    },
+    todos: [
+      { name: 'Baoma', done: true },
+      { name: 'Benchi', done: false },
+      { name: 'dazhong', done: true }
+    ],
+    field: {
+      placeholder: 'placeholder'
+    }
+  })
+</script>
+</body>
+</html>
